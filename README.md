@@ -16,6 +16,6 @@ Desenvolvimento do diagrama com a base de dados do SQL Server foi realizado
 com a ferramenta dbForge Studio for SQL Server da DevArt, onde também facilitou 
 a criação de um dicionário de dados.
 <br>
-<a href=https://drive.google.com/file/d/1XbXpgxTWZIQ3CRomjIKGZXP2YcSDWubK/view?usp=sharing >Diagrama DevArt</a>
+<a href="https://drive.google.com/file/d/1XbXpgxTWZIQ3CRomjIKGZXP2YcSDWubK/view?usp=sharing" target="_blank">Visualizar Diagrama</a>
 <br>
 
