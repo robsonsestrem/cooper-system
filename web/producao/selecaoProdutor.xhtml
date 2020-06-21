@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>Seleção de Produtor</title>	
+        <h:outputStylesheet library="css" name="dialogSearch.css" />
+    </h:head>
+    <h:body>
+        <h:form id="frmDiologProd" >
+            <div style="margin-top: 5px; margin-bottom: 20px">
+                <p:inputText id="nome" size="50" 
+                             value="#{MBselecaoProdutor.matriculaNome}" placeholder="Informe Matrícula ou Nome" />
+
+                <p:spacer width="10px"/>
+
+                <p:commandButton value="Matrícula/Nome" 
+                                 action="#{MBselecaoProdutor.pesquisar()}" update="@form" />
+            </div>                        
+
+            <p:dataTable value="#{MBselecaoProdutor.produtoresFiltrados}" var="Produtor"
+                         emptyMessage="Nenhum produtor encontrado." 
+                         rows="10" paginator="true" 
+                         paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginatorAlwaysVisible="false" paginatorPosition="bottom" >
+
+                <p:column headerText="Matrícula" style="text-align: left; width: 55px">
+                    <h:outputText value="#{Produtor.matricula}" />
+                </p:column>
+                <p:column headerText="Nome" style="text-align: left">
+                    <h:outputText value="#{Produtor.nome}" />
+                </p:column>
+                <p:column headerText="Ação" style="width: 30px; text-align: left">
+                    <p:commandButton icon="ui-icon-check" title="Selecionar"
+                                     action="#{MBselecaoProdutor.selecionar(Produtor)}"
+                                     process="@this" />
+                </p:column>
+                <f:facet name="footer" >   
+                    <h:outputText value="Total de Registros: #{fn:length(MBselecaoProdutor.produtoresFiltrados)}" />                   
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+    </h:body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="titulo">CooperSystem</ui:insert></title>
+        <h:outputStylesheet library="css" name="sistema.css" />        
+    </h:head>
+
+    <h:body>
+        <p:growl  id="msgGlobal" life="6000"/>
+        <header>
+            <div style="float: left;">
+                <h:form style="display: inline-block">
+                    <p:menubar styleClass="menu-sistema">
+                        <p:menuitem value="Início" action="#{MBlogin.home()}" icon="ui-icon-home" style="margin-right: 15px"/>
+
+                        <p:submenu label="Cadastro" style="margin-right: 15px">
+                            <p:menuitem value="Atividades Agrícolas" icon="ui-icon-pencil" outcome="/cadastro/cadastroAtividade.xhtml" />
+                            <p:menuitem value="Contatos Produtores" icon="ui-icon-pencil" outcome="/cadastro/contatosProdutores.xhtml" />                                                        
+                            <p:menuitem value="Usuários" icon="ui-icon-pencil" outcome="/cadastro/usuariosSistema.xhtml" />
+                        </p:submenu>
+
+                        <p:submenu label="Movimentação" style="margin-right: 15px">
+                            <p:menuitem value="Mov. Agrícola" icon="ui-icon-pencil" outcome="/movimentacao/movimentacaoAgricultura.xhtml" />
+                            <p:menuitem value="Mov. Pecuária" icon="ui-icon-pencil" outcome="/movimentacao/movimentacaoPecuaria.xhtml" />
+                        </p:submenu>
+
+                        <p:submenu label="Produção" style="margin-right: 15px">
+                            <p:menuitem value="Agrícola" icon="ui-icon-gear" outcome="/producao/cadastroAgricultura.xhtml" />
+                            <p:menuitem value="Pecuária" icon="ui-icon-gear" outcome="/producao/cadastroPecuaria.xhtml" />
+                        </p:submenu>
+
+                        <p:submenu label="Relatórios" style="margin-right: 15px">
+                            <p:menuitem value="Atividades Agrícolas" icon="ui-icon-document" outcome="/relatorios/listaAtividadeAgricola.xhtml" />
+                            <p:menuitem value="Prod. - Agricultura" icon="ui-icon-document" outcome="/relatorios/listaAgricola.xhtml" />
+                            <p:menuitem value="Prod. - Pecuária" icon="ui-icon-document" outcome="/relatorios/listaPecuaria.xhtml" />
+                            <p:menuitem value="Produtores" icon="ui-icon-document" outcome="/relatorios/listaProdutores.xhtml" />
+                            <p:menuitem value="Potencial Produtivo" icon="ui-icon-document" outcome="/relatorios/demonstrativosProdutores.xhtml" />
+                        </p:submenu>
+
+                        <p:submenu label="Integração" style="margin-right: 15px">
+                            <p:menuitem value="Carregar Produtores" icon="ui-icon-refresh" outcome="/integracao/cargaProdutores.xhtml"/>
+                            <p:menuitem value="Carregar Associados" icon="ui-icon-refresh" outcome="/integracao/cargaAssociados.xhtml"/>
+                        </p:submenu>
+
+                        <p:submenu label="Mapas" style="margin-right: 15px">
+                            <p:menuitem value="Associados - Visão Geral" icon="ui-icon-pin-s" outcome="/mapas/associadosmaps.xhtml"/>
+                            <p:menuitem value="Produtores - Visão Geral" icon="ui-icon-pin-s" outcome="/mapas/produtoresmaps.xhtml"/>
+                        </p:submenu>
+
+                        <p:menuitem value="Suporte" url="https://atendimento.movidesk.com/Account/Login" target="_blank" style="margin-right: 15px"/>
+                        <p:menuitem value="Sair" action="#{MBlogin.logout()}" style="margin-right: 15px"/>                       
+
+                    </p:menubar>
+                </h:form>
+            </div>
+            <div style="clear: both"></div>
+        </header>
+
+        <div id="conteudo">
+            <ui:insert name="corpo"/>
+        </div>
+        
+        <p:separator style="margin-top: 20px"/>
+
+        <div id="setorTI">
+            Empresa - Setor de Tecnologia da Informação 
+            <br></br>             
+            Em caso de dúvidas acesse nosso sistema de atendimento no link abaixo:
+            <br></br>
+            <a href="https://atendimento.movidesk.com/Account/Login" target="_blank">Clique Aqui</a>
+        </div>
+
+        <footer id="copyright">
+           Copyright © #{MBlogin.hoje.year} - Empresa. Todos os direitos reservados.        
+        </footer>     
+
+        
+    </h:body>
+
+</html>
+

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="titulo">Quantitativos Agrícolas</ui:define>
+
+    <ui:define name="corpo">        
+
+        <h:form id="frmCadAgricultura">            
+            <p:panel header="Cadastro de Quantitativos Agrícolas" style="margin: auto;">
+                <p:panelGrid id="painelAgricultura" columns="4" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+                    <p:outputLabel value="Produtor" for="produtor"/>
+                    <h:panelGroup>
+                        <p:inputText id="produtor" size="50" required="true"
+                                     requiredMessage="Campo Produtor Obrigatório"
+                                     value="#{MBagricola.nomeProdutor}"
+                                     readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}" >
+                        </p:inputText>
+                        <p:spacer width="5" height="5" />
+                        <p:commandButton icon="ui-icon-search" title="Pesquisa"
+                                         action="#{MBselecaoProdutor.abrirDialogo()}"
+                                         process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{MBagricola.produtorSelecionado}"
+                                    process="@this" update="produtor" />
+                            <p:resetInput target="produtor" />
+                        </p:commandButton>
+
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Hectares Próprios de Produção" for="hectareProprio" />
+                    <p:inputNumber id="hectareProprio" 
+                                   required="true" requiredMessage="O campo 'Hectares' é obrigatório"                                 
+                                   minValue="0.00" maxValue="999999.99"
+                                   decimalPlaces="2"
+                                   emptyValue="empty"
+                                   symbol=" Ha" symbolPosition="s"
+                                   value="#{MBagricola.oAgricultura.areaCultivo}" >                        
+                    </p:inputNumber>
+
+                    <p:outputLabel value="Produção" for="producao"/>
+                    <h:panelGroup>
+                        <p:inputText id="producao" size="50" required="true"
+                                     requiredMessage="Campo Produção Obrigatório"
+                                     value="#{MBagricola.producaoAtividade}"
+                                     readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}" />
+                        <p:spacer width="5" height="5" />
+                        <p:commandButton icon="ui-icon-search" title="Pesquisa"
+                                         action="#{MBselecaoAtividadeAgricola.abrirDialogo()}"
+                                         process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{MBagricola.atividadeSelecionada}"
+                                    process="@this" update="producao" />
+                            <p:resetInput target="producao" />
+                        </p:commandButton>
+
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Hectares de Produção com Arrendamento" for="hectareArrenda" />
+                    <h:panelGroup>
+                        <p:inputNumber id="hectareArrenda" 
+                                       required="true" requiredMessage="O campo Arrendamento é obrigatório"   
+                                       minValue="0.00" maxValue="999999.99"
+                                       decimalPlaces="2"
+                                       emptyValue="empty"
+                                       symbol=" Ha" symbolPosition="s"
+                                       value="#{MBagricola.oAgricultura.areaArrendada}" 
+                                       disabled="#{MBagricola.mostrar}">                                                                                  
+                        </p:inputNumber>
+                        <p:spacer width="5" height="5" />
+                        <p:selectBooleanCheckbox id="checkArea" value="#{MBagricola.checkbox}">
+                            <p:ajax listener="#{MBagricola.mostrarInputText()}"
+                                    update="hectareArrenda"/>   
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Ano Safra" for="safra" />
+                    <p:selectOneMenu id="safra" value="#{MBagricola.safraOption}" style="width:180px"
+                                     required="true" requiredMessage="Campo Safra Obrigatório" >
+                        <f:selectItem itemLabel="SELECIONE" itemValue="" />
+                        <f:selectItems value="#{MBagricola.safraOptions}" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+            </p:panel>
+
+            <p:toolbar style="margin-top: 5px; margin-bottom: 10px">
+                <f:facet name="left">
+                    <p:commandButton value="Salvar"                                      
+                                     action="#{MBagricola.adicionarDadosAgricultura()}"                                     
+                                     update="msgGlobal frmCadAgroDados" >                        
+                    </p:commandButton>
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+                    <p:commandButton value="Limpar" 
+                                     action="#{MBagricola.cancelarLimpar()}"
+                                     update="painelAgricultura" process="@this" >
+                        <p:resetInput target="painelAgricultura" />
+                    </p:commandButton>
+                </f:facet>
+            </p:toolbar>
+        </h:form>
+
+        <h:form id="frmCadAgroDados">
+            <p:dataTable id="AgriculturaTable" widgetVar="prodAgriculturaTable"  var="Agricola" rows="20" 
+                         emptyMessage="Nenhum registro encontrado"
+                         paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} 
+                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                         rowsPerPageTemplate="5,10,15,20,30,50"
+                         value="#{MBagricola.prodAgricultura}" 
+                         editable="true" multiViewState="true" paginator="true" 
+                         resizableColumns="true" >   
+
+                <f:facet name="header">
+                    <h:outputText value="Quantitativos Cadastrados" style="text-align: initial"/>
+                    <p:commandLink ajax="false" style="float: right;margin-left: 20px;">
+                        <p:graphicImage value="/resources/imagens/pdf.png" width="35px"/>
+                        <p:dataExporter type="pdf" target="AgriculturaTable" fileName="Producao_Agricultura" encoding="ISO-8859-1"/>
+                    </p:commandLink>
+
+                    <p:commandLink ajax="false" style="float: right;">
+                        <p:graphicImage value="/resources/imagens/excel.png" width="40px"/>
+                        <p:dataExporter type="xls" target="AgriculturaTable" fileName="Produção_Agricultura" />
+                    </p:commandLink>
+
+                </f:facet>              
+
+                <p:ajax event="rowEdit" listener="#{MBagricola.onRowEditAgricultura}" process="@this" update="AgriculturaTable msgGlobal" />
+                <p:ajax event="rowEditCancel" listener="#{MBagricola.onRowCancelAgricultura}" process="@this" update="AgriculturaTable msgGlobal" />
+
+                <p:column headerText="Nome Produtor" style="text-align: left; width:400px"
+                          filterBy="#{Agricola.nomeProSelect}"
+                          sortBy="#{Agricola.nomeProSelect}" 
+                          >
+                    <h:outputText value="#{Agricola.nomeProSelect}" />
+                </p:column>
+
+                <p:column headerText="Matrícula" style="text-align: center; "
+                          sortBy="#{Agricola.matriculaSelect}"
+                          filterBy="#{Agricola.matriculaSelect}" filterMatchMode="contains">
+                    <h:outputText value="#{Agricola.matriculaSelect}" />
+                </p:column>
+
+                <p:column headerText="Cultura" style="text-align: center; "
+                          sortBy="#{Agricola.cultura}"
+                          filterBy="#{Agricola.cultura}" filterMatchMode="contains">
+                    <h:outputText value="#{Agricola.cultura}" />
+                </p:column>
+
+                <p:column headerText="Produção" style="text-align: center; "
+                          sortBy="#{Agricola.producaoSelect}" 
+                          filterBy="#{Agricola.producaoSelect}" filterMatchMode="contains">
+                    <h:outputText value="#{Agricola.producaoSelect}" />
+                </p:column>
+
+                <p:column headerText="Área" style="text-align: center;"
+                          sortBy="#{Agricola.areaCultivo}"
+                          filterBy="#{Agricola.areaCultivo}" filterMatchMode="contains">                      
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{Agricola.areaCultivo}" >
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input"><h:inputText value="#{Agricola.areaCultivo}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Arrendado" style="text-align: center; "
+                          sortBy="#{Agricola.areaArrendada}" 
+                          filterBy="#{Agricola.areaArrendada}" filterMatchMode="contains">
+                    <h:outputText value="#{Agricola.areaArrendada}" >                        
+                    </h:outputText>      
+
+                </p:column>
+
+                <p:column headerText="Ano Safra" style="text-align: center"
+                          sortBy="#{Agricola.safra}"
+                          filterBy="#{Agricola.safra}" filterMatchMode="contains">                          
+                    <h:outputText value="#{Agricola.safra}" />
+                </p:column>
+
+                <p:column headerText="Editar" exportable="false"
+                          style="text-align: center; width: 40px">
+                    <p:rowEditor >                        
+                    </p:rowEditor>
+                </p:column>
+
+                <p:column headerText="Excluir" exportable="false"
+                          style="text-align: center; width: 40px">                                            
+
+                    <p:commandButton icon="ui-icon-trash" style="font-size: 9px" 
+                                     actionListener="#{MBagricola.excluirProdAgricultura}" 
+                                     process="@this" update="msgGlobal AgriculturaTable"  > 
+                        <p:confirm header="Confirmação" message="Deseja Realmente Excluir?" 
+                                   icon="ui-icon-alert" />
+                        <f:attribute name="dadoSelecionado" value="#{Agricola}" />
+                    </p:commandButton>                      
+                </p:column> 
+
+                <f:facet name="footer" >   
+                    <h:outputText value="Total de Registros: #{fn:length(MBagricola.prodAgricultura)}" />                   
+                </f:facet>
+
+            </p:dataTable> 
+
+            <p:confirmDialog global="true">
+                <p:commandButton  value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton  value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

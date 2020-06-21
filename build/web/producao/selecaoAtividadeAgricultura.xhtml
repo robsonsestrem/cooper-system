@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>Atividades Agrícolas</title>	
+        <h:outputStylesheet library="css" name="dialogSearch.css" />
+    </h:head>
+    <h:body>
+        <h:form>
+            <div style="margin-top: 5px; margin-bottom: 20px">
+                <p:inputText id="cultura" size="50" 
+                             value="#{MBselecaoAtividadeAgricola.producao}" placeholder="Produção" />
+
+                <p:spacer width="10px"/>
+
+                <p:commandButton value="Pesquisar" 
+                                 action="#{MBselecaoAtividadeAgricola.pesquisar()}" update="@form" />
+            </div>
+
+            <p:dataTable value="#{MBselecaoAtividadeAgricola.atividadesFiltradas}" var="Atividade"
+                         emptyMessage="Nenhuma atividade listada." 
+                         rows="10" paginator="true" 
+                         paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+                <p:column headerText="Código" style="text-align: center; width: 50px">
+                    <h:outputText value="#{Atividade.idAtividade}" />
+                </p:column>
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{Atividade.tipo}" />
+                </p:column>
+                <p:column headerText="Cultura">
+                    <h:outputText value="#{Atividade.cultura}" />
+                </p:column>
+                <p:column headerText="Produção">
+                    <h:outputText value="#{Atividade.producao}" />
+                </p:column>
+
+                <p:column headerText="Ação" style="width: 30px; text-align: center">
+                    <p:commandButton icon="ui-icon-check" title="Selecionar"
+                                     action="#{MBselecaoAtividadeAgricola.selecionar(Atividade)}"
+                                     process="@this" />
+                </p:column>
+                <f:facet name="footer" >   
+                    <h:outputText value="Total de Registros: #{fn:length(MBselecaoAtividadeAgricola.atividadesFiltradas)}" />                   
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+    </h:body>
+</html>
