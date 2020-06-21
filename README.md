@@ -9,11 +9,10 @@ atualização cadastral diária consumida por meio do sistema ERP já existente.
 
 <br>
 ### 📽 Demo - Pesquisa e seleção de produtores para informar os quantitativos agrícolas ou pecuários entre outras rotinas
-<br>
+
 
 ### 📽 Demo - Cadastro e movimentação de atividades agropecuárias
-<br>
-
+<img src="/demo/cadastroMov.gif">
 
 ### Diagrama de banco de dados
 <br>
@@ -21,6 +20,6 @@ Desenvolvimento do diagrama com a base de dados do SQL Server foi realizado
 com a ferramenta dbForge Studio for SQL Server da DevArt, onde também facilitou 
 a criação de um dicionário de dados.
 <br>
-<a href=https://drive.google.com/file/d/1XbXpgxTWZIQ3CRomjIKGZXP2YcSDWubK/view?usp=sharing target="_blank">Diagrama DevArt</a>
+<a href=https://drive.google.com/file/d/1XbXpgxTWZIQ3CRomjIKGZXP2YcSDWubK/view?usp=sharing>Diagrama DevArt</a>
 <br>
 
