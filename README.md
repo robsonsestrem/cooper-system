@@ -13,7 +13,7 @@ atualização cadastral diária consumida por meio do sistema ERP já existente.
 
 ### 📽 Demo - Cadastro e movimentação de atividades agropecuárias
 <br>
-<img src="/demo/cadastro_mov.gif">
+
 
 ### Diagrama de banco de dados
 <br>
