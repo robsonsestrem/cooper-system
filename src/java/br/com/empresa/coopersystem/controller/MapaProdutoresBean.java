@@ -63,13 +63,13 @@ public class MapaProdutoresBean implements Serializable {
             MapsDAO busca = new MapsDAO();
             try {
                 listaCoordenadas = busca.listCoordenadasProd();
-                for (int i = 0; i < listaCoordenadas.size(); i++) {
-                    //double latitude = Double.parseDouble(listaCoordenadas.get(i).getLatitude());
-                    //double longitude = Double.parseDouble(listaCoordenadas.get(i).getLongitude());
+                for (int i = 0; i < listaCoordenadas.size(); i++) {                    
                     Double latitude = Double.valueOf(listaCoordenadas.get(i).getLatitude());
                     Double longitude = Double.valueOf(listaCoordenadas.get(i).getLongitude());
+                    
                     //seta as coordenadas
                     LatLng coord = new LatLng(latitude, longitude);
+                    
                     //seta os marcadores
                     simpleModel.addOverlay(new Marker(coord, "Cep: " + listaCoordenadas.get(i).getCep() + "\nTotal de Produtores: " + listaCoordenadas.get(i).getTotalPessoaPorCep()));
                 }
