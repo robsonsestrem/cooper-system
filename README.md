@@ -10,7 +10,7 @@ atualização cadastral diária consumida por meio do sistema ERP já existente.
 <img src="/demo/cadastroMov.gif">
 <br>
 
-### 📽 Demo - Cadastro de quantitavos e controle de acesso
+### 📽 Demo - Controle de acesso e cadastro de quantitavos
 <img src="/demo/quantitativos.gif">
 <br>
 
