@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public class DataConnect {
 
     public static final Connection getConexao() {
-        String url = "jdbc:sqlserver://localhost\\mssqlserver:1433;databaseName=CooperSystem";
+        String url = "jdbc:sqlserver://localhost\\mssqlserver:1433;databaseName=CooperSystem;integratedSecurity=false;encrypt=false;trustServerCertificate=false";
         String user = "agrosystem";
         String senha = "agrosystem.32767";
         try {
